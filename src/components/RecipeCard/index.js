@@ -7,8 +7,8 @@ function RecipeCard({ item }) {
             <Link className="Card__content card is-flex" to={`/recipes/${item.id}`}>
                 <div className="card-content">
                     <div className="content">
-                        <h4>{item.title}</h4>
-                        <p>{item.body}</p>
+                        <h4>{item.name}</h4>
+                        <p>{item.description}</p>
                     </div>
                 </div>
             </Link>
