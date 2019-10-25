@@ -6,7 +6,6 @@ const actionsCreator = (dispatch) => ({
     list: async () => {
         const response = await fetch('http://react-19-20.cleverapps.io/valentin/recettes')
         const list = await response.json()
-        console.log({ list })
         return dispatch({
             type: sideActions.LIST_LOADED,
             payload: list,
