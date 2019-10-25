@@ -3,6 +3,8 @@ import actionsCreator, { actions } from './actionsCreator'
 
 export const RecipesContext = createContext()
 
+export const useRecipesContext = () => useContext(RecipesContext)
+
 const recipes = [
     {
         id: 1,
