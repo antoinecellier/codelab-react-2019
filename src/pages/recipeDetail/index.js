@@ -28,14 +28,17 @@ function RecipeDetail() {
             <div className="control control-container">
               <div className="select is-fullwidth">
                 <select>
-                  <option value="Pomme">Pomme</option>
-                  <option value="Beurre">Beurre</option>
-                  <option value="Farine">Farine</option>
+                  <option value="reblochon">Reblochon</option>
+                  <option value="pommes de terre">Pommes de terre</option>
+                  <option value="charcuterie">Charcuterie</option>
+                  <option value="merguez">Merguez</option>
+                  <option value="morbier">Morbier</option>
+                  <option value="haricots blanc">Haricots blanc</option>
                 </select>
               </div>
             </div>
-            <div class="control">
-              <button type="submit" class="button is-primary">Ajouter un ingrédient</button>
+            <div className="control">
+              <button type="submit" className="button is-primary">Ajouter un ingrédient</button>
             </div>
           </div>
 
