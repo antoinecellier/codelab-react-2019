@@ -1,7 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useRecipesContext } from "../../context/recipes/index";
 import "./styles.scss";
 
 function RecipeDetail() {
+  const { state: { current }, actions } = useRecipesContext()
+  const params = useParams() 
+
+  const [recipe, setRecipe] = useState(current)
+
+  useEffect(() => {
+    if (current.id !== params.id) actions.get(params.id)
+  }, [current, actions, params.id])
+
+  useEffect(() => {
+    setRecipe(current)
+  }, [current])
+
   return (
     <section className="SectionComponent hero section is-block is-relative">
       <div className="container">
@@ -11,7 +26,7 @@ function RecipeDetail() {
           <div className="field">
             <label className="label">Nom de la recette</label>
             <div className="control">
-              <input className="input" type="text" placeholder="Nom de la recette" />
+              <input className="input" type="text" value={recipe.name} onChange={(e) => setRecipe({...recipe, name: e.target.value})} placeholder="Nom de la recette" />
             </div>
           </div>
 
@@ -19,7 +34,7 @@ function RecipeDetail() {
           <div className="field">
             <label className="label">Description</label>
             <div className="control">
-              <textarea className="textarea" placeholder="Description"></textarea>
+              <textarea className="textarea" value={recipe.description} onChange={(e) => setRecipe({...recipe, description: e.target.description})} placeholder="Description"></textarea>
             </div>
           </div>
 
@@ -44,7 +59,8 @@ function RecipeDetail() {
 
           <div className="field is-grouped">
             <div className="control">
-              <button className="button is-success">Enregistrer</button>
+            <button className="button reset" onClick={() => setRecipe(current)}>Annuler les changements</button>
+              <button className="button is-success" onClick={() => actions.post(recipe)}>Enregistrer</button>
             </div>
           </div>
 

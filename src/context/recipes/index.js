@@ -7,12 +7,18 @@ export const useRecipesContext = () => useContext(RecipesContext)
 
 const initialState = {
     list: [],
+    current: {
+        name: '',
+        description: ''
+      }
 }
 
 function reducer(state, action) {
     switch (action.type) {
         case sideActions.LIST_LOADED:
             return { ...state, list: action.payload }
+        case sideActions.CURRENT_LOADED:
+            return { ...state, current: action.payload }
         default:
             return state
     }
