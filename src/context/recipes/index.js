@@ -9,7 +9,8 @@ const initialState = {
     list: [],
     current: {
         name: '',
-        description: ''
+        description: '',
+        ingredients: []
       }
 }
 
@@ -24,7 +25,7 @@ function reducer(state, action) {
     }
 }
 
-export const RecipesProvider = ({ children }) => {  
+export const RecipesProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState)
     const actions = actionsCreator(dispatch)
 
