@@ -5,7 +5,7 @@ export const sideActions = {
 
 const actionsCreator = (dispatch) => ({
     list: async () => {
-        const response = await fetch('http://react-19-20.cleverapps.io/antoine/recettes')
+        const response = await fetch('http://react-19-20.cleverapps.io/test/recettes')
         const list = await response.json()
         return dispatch({
             type: sideActions.LIST_LOADED,
@@ -13,7 +13,7 @@ const actionsCreator = (dispatch) => ({
         })
     },
     get: async (id) => {
-        const response = await fetch(`http://react-19-20.cleverapps.io/antoine/recettes/${id}`)
+        const response = await fetch(`http://react-19-20.cleverapps.io/test/recettes/${id}`)
         const recipe = await response.json()
         return dispatch({
             type: sideActions.CURRENT_LOADED,
@@ -22,7 +22,7 @@ const actionsCreator = (dispatch) => ({
     },
     post: async (recipe) => {
         const response = await fetch(
-            `http://react-19-20.cleverapps.io/antoine/recettes/${recipe.id}`, 
+            `http://react-19-20.cleverapps.io/test/recettes/${recipe.id}`, 
             {
                 method: 'PUT',
                 body: JSON.stringify(recipe),
