@@ -13,18 +13,15 @@ authors: Antoine CELLIER
 
 - GIT
 - NodeJS 10.x ou >
-- un IDE (WebStorm ou Visual Studio Code...)
+- un IDE (Visual Studio Code ou Webstorm...)
 
 - Récupérez le répertoire step0 du repository GIT
 
 ```
-git clone -b step-0 https://github.com/antoinecellier/codelab-react-2019
+git clone -b step-2 https://github.com/antoinecellier/codelab-react-2019
 cd codelab-react-2019
 npm install # yarn
-# Ou 
-git clone https://github.com/antoinecellier/codelab-react-2019
-cd codelab-nestjs/corrections/step0 -> TODO: repertoire corrections
-npm install # yarn
+npm run start # yarn start
 ```
 
 Voici de plus quelques liens qui pourraient vous être utiles tout au long de ce codelab :
@@ -58,7 +55,7 @@ Créez un nouveau `context`:
 export const RecipesContext = createContext()
 ```
 
-Déplacez la variables `recipes` du composant `Home` dans ce fichier.
+Déplacez la variable `recipes` du composant `Home` dans ce fichier.
 ```js
 const recipes = [ ... ]
 ```
@@ -107,7 +104,8 @@ A la fin de ce TP vous affichez la liste des recettes seulement grâce aux donn�
 
 <!-- ------------------------ -->
 ## Consommer un contexte grâce aux hooks
-Duration: 1
+
+Continuez avec votre code ou récupérez la branche `git checkout step-3`.
 
 Dans ce TP vous allez utiliser les `hook` afin de consommer plus facilement un contexte dans un composant. 
 L'objectif est de ne plus utiliser le composant `<RecipesContext.Consumer />` grâce au hook `useContext`.
@@ -145,15 +143,17 @@ Retirez le composant `<RecipesContext.Consumer />`. Puis utilisez le hook que vo
 <!-- ------------------------ -->
 ## Récupèrer les recettes de manière asynchrone
 
-A partir d'ici vous pouvez consulter la liste des recettes à partir d'une variable stocké dans le contexte `recipes`.
-Maintenant l'objectif est de récupèrer des données depuis un service REST pour les afficher dans votre application.
+Continuez avec votre code ou récupérez la branche `git checkout step-4`.
+
+A partir d'ici vous pouvez consulter la liste des recettes à partir d'une variable stockée dans le contexte `recipes`.
+Maintenant l'objectif est de récupérer des données sur un service pour les afficher dans votre application.
 
 Le service est disponible à cette url: `http://react-19-20.cleverapps.io/${lastName}/recettes`
 La variable `lastName` devra être votre nom de famille. Cela permet d'avoir vos propres données.
 
 #### Dans le fichier `src/context/recipes/actionsCreator.js`
 
-Déclarez une action qui sera dispatché une fois les données récupèré :
+Déclarez une action qui sera dispatchée une fois les données récupérées :
 
 ```js
 export const sideActions = {
@@ -161,17 +161,17 @@ export const sideActions = {
 }
 ```
 
-Créez l'action permetant de récupèrer la liste des recettes (n'oubliez pas de mettre à jour la variable `lastName`) :
+Créez l'action permettant de récupérer la liste des recettes (n'oubliez pas de mettre à jour la variable `lastName`) :
 
 ```js
 const lastName = '<votre nom>'
 
 const actionsCreator = (dispatch) => ({
     list: async () => {
-        // Appel asynchrone au service pour récupèrer la liste des recettes
-        const response = await fetch(`http://react-19-20.cleverapps.io/${lastName}/recettes`)
+        // Appel asynchrone au service pour récupérer la liste des recettes
+        const response = await fetch('http://react-19-20.cleverapps.io/${lastName}/recettes')
         const list = await response.json()
-        // Une fois la liste récupèré, vous dispatchez une action qui contient la liste des recettes
+        // Une fois la liste récupérée, vous dispatchez une action qui contient la liste des recettes
         dispatch({
             type: sideActions.LIST_LOADED,
             payload: list,
@@ -183,7 +183,7 @@ const actionsCreator = (dispatch) => ({
 
 #### Dans le fichier `src/context/recipes/index.js`
 
-Déclarez un état initiale pour le contexte et supprimez la variables `recipes` qui contient la liste en "dur":
+Déclarez un état initial pour le contexte et supprimez la variable `recipes` qui contient la liste en "dur":
 
 ```js
 const initialState = {
@@ -191,7 +191,7 @@ const initialState = {
 }
 ```
 
-Créez un reducer qui va permettre de mettre à jour les données du contexte quand une action est dispatché :  
+Créez un reducer qui va permettre de mettre à jour les données du contexte quand une action est dispatchée :  
 
 ``` js
 function reducer(state, action) {
@@ -224,14 +224,14 @@ export const RecipesProvider = ({ children }) => {
 
 #### Dans le fichier `src/pages/home/index.js`
 
-Vous venez d'ajoutez les actions dans le contexte `recipes`. Il faut donc changer la manière dont vous récupèrez la liste des recettes.
+Vous venez d'ajouter les actions dans le contexte `recipes`. Il faut donc changer la manière dont vous récupérez la liste des recettes.
 
-En plus de l'état vous pouvez récupèrez les actions du contexte :
+En plus de l'état vous pouvez récupérez les actions du contexte :
 ```js
 const { state, actions } = useRecipesContext()
 ```
 
-A présent l'objectif est de récupèrer la liste des recettes quand le composant est initialisé, pour cela vous pourrez utiliser le hook `useEffect` et exécutez l'action `actions.list()`.
+A présent l'objectif est de récupérer la liste des recettes quand le composant est initialisé, pour cela vous pourrez utiliser le hook `useEffect` et exécuter l'action `actions.list()`.
 
 ```js
 useEffect(() => {
@@ -249,21 +249,23 @@ return (
 );
 ```
 
-`if (!state.list.length)` permet d'exécuter l'action seulement si le tableau de recette est encore vide.
+`if (!state.list.length)` permet d'exécuter l'action seulement si le tableau de recettes est encore vide.
 
 L'application doit maintenant afficher trois recette: Recette 1, Recette 2, Recette 3.
 
 <!-- ------------------------ -->
 ## Modifier une recette
 
-L'objectif de cette partie est de récupèrer une recette grâce au service REST (`http://react-19-20.cleverapps.io`), afficher ces données dans le formulaire (`src/pages/recipeDetail/index.js`), et modifier la recette.
+Continuez avec votre code ou récupérez la branche `git checkout step-5`.
+
+L'objectif de cette partie est de récupérer une recette grâce au service `http://react-19-20.cleverapps.io`, afficher ces données dans le formulaire (`src/pages/recipeDetail/index.js`), et modifier la recette.
 
 #### Attention il y a moins de directives pour ce TP, vous pourrez reprendre la même logique que le TP précédent.
 
-Dans un premier temps vous allez devoir récupèrer une recette grâce à cette url: 
+Dans un premier temps vous allez devoir récupérer une recette grâce à cette url: 
 `http://react-19-20.cleverapps.io/${lastName}/recettes/${id}`
 
-L'application utilise la libraire `react-router-dom` qui met à disposition le hook `useParams` pour récupèrer les paramètres de la route courante. Ici le paramètre `id` va être utilisé pour récupèrer l'`id` de la recette courante:
+L'application utilise la libraire `react-router-dom` qui met à disposition le hook `useParams` pour récupérer les paramètres de la route courante. Ici le paramètre `id` va être utilisé pour récupérer l'`id` de la recette courante.
 
 ```js
 import { useParams } from 'react-router-dom'
@@ -288,7 +290,7 @@ const [recipe, setRecipe] = useState(currentRecipe)
 ```
 
 
-Deux actions utilisateur vont être possible (ajoutez la props `onClick` sur les boutons d'action):
+Deux actions utilisateur vont être possibles:
 
 - Enregistrer la recette, toujours en utilisant le service REST fourni:
 
@@ -307,9 +309,12 @@ await fetch(`http://react-19-20.cleverapps.io/${lastName}/recettes/${recipe.id}`
 <!-- ------------------------ -->
 ## Ajouter des ingrédients à une recette
 
+Continuez avec votre code ou récupérez la branche `git checkout step-6`.
+
+
 Maintenant que vous pouvez modifier le nom et la description de vos recettes, il reste à gérer les ingrédients.
 
-L'objectif de cette partie est de récupèrer la liste des ingrédients partir de cette url: `http://react-19-20.cleverapps.io/${lastName}/ingredients`, les afficher dans le select du formulaire et de pouvoir les ajouter à une recette.   
+L'objectif de cette partie est de récupérer la liste des ingrédients partir de cette url: `http://react-19-20.cleverapps.io/${lastName}/ingredients`, de les afficher dans le select du formulaire et de pouvoir les ajouter à une recette.   
 
 Dans un premier temps vous devez créez un nouveau context pour récupèrer la liste des ingrédients: `src/context/ingredients`
 N'hésitez pas à reprendre ce que vous avez fait pour les recettes. 
@@ -329,11 +334,8 @@ const [ingredientSelected, setIngredientSelected] = useState('')
 </select>
 ```
 
-N'oubliez pas de gérer la valeur du <select> avec le hook `useState`.
-
-
-En cliquant sur le bouton `Ajouter un ingrédient`, l'ingrédient selectionné sera ajouté à la liste en dessous du select.
-Cette liste devra afficher le nom de l'ingrédient, pour cela vous pouvez mettre en place un selecteur qui va permettre de récupère un ingrédient (`{ name: 'Recette 1', id: 1 }`) par rapport à son `id`:
+En cliquant sur le bouton `Ajouter un ingrédient`, l'ingrédient selectionnez sera ajouté à la liste en dessous du select.
+Cette liste devra afficher le nom de l'ingrédient, pour cela vous pouvez mettre en place un selecteur qui va permettre de récupérer un ingrédient (`{ name: 'Recette 1', id: 1 }`) par rapport à son `id`:
 
 Dans le fichier `src/context/ingredients/selectors.js` ajoutez ce code:
 ```js
