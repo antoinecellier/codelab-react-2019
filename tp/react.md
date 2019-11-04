@@ -126,6 +126,10 @@ export const useRecipesContext = () => useContext(RecipesContext)
 Retirez le composant `<RecipesContext.Consumer />`. Puis utilisez le hook que vous venez de créez pour récupérer le context.
 
 ```js
+  import { useRecipesContext } from '../../context/recipes/index'
+  
+  ...
+
   const recipesContext = useRecipesContext()
   return (
     <section className="SectionComponent hero section is-block is-relative">
@@ -142,7 +146,7 @@ Retirez le composant `<RecipesContext.Consumer />`. Puis utilisez le hook que vo
 ## Récupèrer les recettes de manière asynchrone
 
 A partir d'ici vous pouvez consulter la liste des recettes à partir d'une variable stocké dans le contexte `recipes`.
-Maintenant l'objectif est de récupèrer des données sur un service pour les afficher dans votre application.
+Maintenant l'objectif est de récupèrer des données depuis un service REST pour les afficher dans votre application.
 
 Le service est disponible à cette url: `http://react-19-20.cleverapps.io/${lastName}/recettes`
 La variable `lastName` devra être votre nom de famille. Cela permet d'avoir vos propres données.
@@ -165,7 +169,7 @@ const lastName = '<votre nom>'
 const actionsCreator = (dispatch) => ({
     list: async () => {
         // Appel asynchrone au service pour récupèrer la liste des recettes
-        const response = await fetch('http://react-19-20.cleverapps.io/${lastName}/recettes')
+        const response = await fetch(`http://react-19-20.cleverapps.io/${lastName}/recettes`)
         const list = await response.json()
         // Une fois la liste récupèré, vous dispatchez une action qui contient la liste des recettes
         dispatch({
@@ -247,23 +251,29 @@ return (
 
 `if (!state.list.length)` permet d'exécuter l'action seulement si le tableau de recette est encore vide.
 
-
+L'application doit maintenant afficher trois recette: Recette 1, Recette 2, Recette 3.
 
 <!-- ------------------------ -->
 ## Modifier une recette
 
-L'objectif de cette partie est de récupèrer une recette grâce au service `http://react-19-20.cleverapps.io`, afficher ces données dans le formulaire (`src/pages/recipeDetail/index.js`), et modifier la recette.
+L'objectif de cette partie est de récupèrer une recette grâce au service REST (`http://react-19-20.cleverapps.io`), afficher ces données dans le formulaire (`src/pages/recipeDetail/index.js`), et modifier la recette.
 
 #### Attention il y a moins de directives pour ce TP, vous pourrez reprendre la même logique que le TP précédent.
 
 Dans un premier temps vous allez devoir récupèrer une recette grâce à cette url: 
 `http://react-19-20.cleverapps.io/${lastName}/recettes/${id}`
 
-L'application utilise la libraire `react-router-dom` qui met à disposition le hook `useParams` pour récupèrer les paramètres de la route courante. Ici le paramètre `id` va être utilisé pour récupèrer l'`id` de la recette courante.
+L'application utilise la libraire `react-router-dom` qui met à disposition le hook `useParams` pour récupèrer les paramètres de la route courante. Ici le paramètre `id` va être utilisé pour récupèrer l'`id` de la recette courante:
+
+```js
+import { useParams } from 'react-router-dom'
+...
+const { id } = useParams()
+```
 
 ### Dans le composant `src/pages/recipeDetail/index.js`
 
-Vous allez pouvoir gérer les données du formulaire en utilisant l'état local, grâce au `hook`  `useState`:
+Vous allez pouvoir gérer les données du formulaire en utilisant l'état local, grâce au hook `useState`:
 ```js
 const [recipe, setRecipe] = useState(currentRecipe)
 
@@ -278,9 +288,9 @@ const [recipe, setRecipe] = useState(currentRecipe)
 ```
 
 
-Deux actions utilisateur vont être possible:
+Deux actions utilisateur vont être possible (ajoutez la props `onClick` sur les boutons d'action):
 
-- Enregistrer la recette, toujours en utilisant le service fourni:
+- Enregistrer la recette, toujours en utilisant le service REST fourni:
 
 ```js
 await fetch(`http://react-19-20.cleverapps.io/${lastName}/recettes/${recipe.id}`, 
@@ -299,17 +309,30 @@ await fetch(`http://react-19-20.cleverapps.io/${lastName}/recettes/${recipe.id}`
 
 Maintenant que vous pouvez modifier le nom et la description de vos recettes, il reste à gérer les ingrédients.
 
-L'objectif de cette partie est de récupèrer la liste des ingrédients partir de cette url: `http://react-19-20.cleverapps.io/${lastName}/ingredients`, de les afficher dans le select du formulaire et de pouvoir les ajouter à une recette.   
+L'objectif de cette partie est de récupèrer la liste des ingrédients partir de cette url: `http://react-19-20.cleverapps.io/${lastName}/ingredients`, les afficher dans le select du formulaire et de pouvoir les ajouter à une recette.   
 
-Vous pouvez afficher les ingrédients dans le `select` du formulaire comme ceci:
+Dans un premier temps vous devez créez un nouveau context pour récupèrer la liste des ingrédients: `src/context/ingredients`
+N'hésitez pas à reprendre ce que vous avez fait pour les recettes. 
+
+Une fois la liste des ingrédients récupèré vous devez les afficher dans le `select` du formulaire comme ceci:
 
 ```js
-{listIngredients.map(ingredient => (
-    <option key={ingredient.id} value={ingredient.id}>{ingredient.name}</option>
-))}
+const [ingredientSelected, setIngredientSelected] = useState('')
+
+...
+
+<select value={ingredientSelected} onChange={(e) => setIngredientSelected(e.target.value)}>
+    <option defaultValue></option>
+    {ingredientsList.map(ingredient => (
+        <option key={ingredient.id} value={ingredient.id}>{ingredient.name}</option>
+    ))}
+</select>
 ```
 
-En cliquant sur le bouton `Ajouter un ingrédient`, l'ingrédient selectionnez sera ajouté à la liste en dessous du select.
+N'oubliez pas de gérer la valeur du <select> avec le hook `useState`.
+
+
+En cliquant sur le bouton `Ajouter un ingrédient`, l'ingrédient selectionné sera ajouté à la liste en dessous du select.
 Cette liste devra afficher le nom de l'ingrédient, pour cela vous pouvez mettre en place un selecteur qui va permettre de récupère un ingrédient (`{ name: 'Recette 1', id: 1 }`) par rapport à son `id`:
 
 Dans le fichier `src/context/ingredients/selectors.js` ajoutez ce code:
