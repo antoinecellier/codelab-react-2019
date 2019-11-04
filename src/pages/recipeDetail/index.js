@@ -34,7 +34,7 @@ function RecipeDetail() {
           <div className="field">
             <label className="label">Description</label>
             <div className="control">
-              <textarea className="textarea" value={recipe.description} onChange={(e) => setRecipe({...recipe, description: e.target.description})} placeholder="Description"></textarea>
+              <textarea className="textarea" value={recipe.description} onChange={(e) => setRecipe({...recipe, description: e.target.value})} placeholder="Description"></textarea>
             </div>
           </div>
 
