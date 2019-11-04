@@ -1,0 +1,24 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2019-11-01T12:33:50Z",
+  "id": "codelab-react-2019",
+  "duration": 1,
+  "title": "React",
+  "authors": "Antoine CELLIER",
+  "summary": "Codelab React 2019",
+  "source": "react.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "front-end"
+  ],
+  "tags": [
+    "react"
+  ],
+  "url": "codelab-react-2019"
+}
