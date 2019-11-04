@@ -13,13 +13,6 @@ function Navbar() {
             </Link>
           </div>
         </div>
-        <div className="navbar-menu">
-          <div className="navbar-end">
-            <Link className="navbar-item" to="/recipes/new">
-              Ajouter une recette
-            </Link>
-          </div>
-        </div>
       </div>
     </nav>
   );
