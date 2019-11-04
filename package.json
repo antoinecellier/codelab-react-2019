@@ -16,11 +16,20 @@
     "node-sass": "4.12.0",
     "bulma": "0.7.5"
   },
+  "devDependencies": {
+    "mdx-deck": "^1.8.2",
+    "mdx-deck-code-surfer": "^0.5.3",
+    "prism-react-renderer": "^0.1.5"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "slides:start": "mdx-deck slides/deck.mdx",
+    "slides:build": "mdx-deck build slides/deck.mdx",
+    "slides:pdf": "mdx-deck pdf slides/deck.mdx",
+    "slides:image": "mdx-deck screenshot slides/deck.mdx"
   },
   "eslintConfig": {
     "extends": "react-app"

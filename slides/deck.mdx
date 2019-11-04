@@ -1,0 +1,218 @@
+import { Head, Appear, Notes } from 'mdx-deck'
+import { Split } from 'mdx-deck/layouts'
+export { components } from "mdx-deck-code-surfer"
+export { default as theme } from './theme'
+
+
+<Head>
+  <title>Développer une application React en 2019</title>
+</Head>
+
+# Développer une application React en 2019
+
+---
+
+export default Split
+
+<section>
+
+![](https://avatars1.githubusercontent.com/u/5922848?s=800&v=4)
+
+### Antoine Cellier
+
+Développeur Front-End
+[@ZenikaNantes](https://twitter.com/ZenikaNantes)
+
+[@antoinecellier3](https://twitter.com/antoinecellier3)
+
+</section>
+
+<section>
+
+![](https://avatars1.githubusercontent.com/u/3855602?s=300&v=4)
+
+### Valentin Cocaud
+
+Développeur
+[@ZenikaNantes](https://twitter.com/ZenikaNantes)
+
+[@ragorn44](https://twitter.com/ragorn44)
+
+</section>
+
+---
+
+## Programme
+
+- Présentation des nouveautées React: Hooks et API Context (15 min) 🎤
+
+- Codelab (1h45) 💻
+
+- Pizzas & boissons 🍕🍻
+
+---
+
+# Hooks
+
+---
+
+- Réutiliser la logique
+- Les prémices `mixins`, `hoc`, `renderProps`: Surcharge de l'arbre de composants
+- Gérer plus facilement les mécaniques d'un composant: `state`, cycle de vie 
+- Disponibles depuis la version 16.8.0
+
+---
+
+# Hooks - useState
+
+---
+
+```jsx
+import React, { useState } from 'react';
+
+const Counter = () =>  {
+  const [count, setCount] = useState(0);
+
+  return (
+    <>
+      <p>Vous avez cliqué {count} fois</p>
+      <button onClick={() => setCount(count + 1)}>
+        Cliquez ici
+      </button>
+    </>
+  );
+}
+----
+*
+4 > initialisation d'un état local 
+8 > affichage de l'état
+9 > mise à jour de l'état local
+*
+```
+
+---
+
+# Hooks - useEffect
+
+---
+
+```jsx
+import React, { useState, useEffect } from 'react';
+
+const Counter = () => {
+  const [count, setCount] = useState(0);
+
+  // Similaire à componentDidMount et componentDidUpdate :
+  useEffect(() => {
+    console.log(count)
+  }, [count]); // Appel seulement si la valeur de count change
+
+  return (
+    <div>
+      <p>Vous avez cliqué {count} fois</p>
+      <button onClick={() => setCount(count + 1)}>
+        Cliquez ici
+      </button>
+    </div>
+  );
+}
+----
+*
+4 > initialisation d'un état 
+6,7,8,9 > `log` du `count` à chaque fois que le composant est rerendu et que sa valeur change
+14 > Mise à jour de l'état
+*
+```
+
+---
+
+# Hooks - useReducer
+
+---
+
+```jsx
+const initialState = {count: 0};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'increment':
+      return {count: state.count + 1};
+    case 'decrement':
+      return {count: state.count - 1};
+    default:
+      throw new Error();
+  }
+}
+
+const Counter = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  return (
+    <>
+      Total : {state.count}
+      <button onClick={() => dispatch({type: 'decrement'})}>-</button>
+      <button onClick={() => dispatch({type: 'increment'})}>+</button>
+    </>
+  );
+}
+----
+*
+1 > initialisation d'un état 
+3,4,5,6,7,8,9,10,11,12 > implémentation du reducer
+15 > useReducer
+19 > dispatch d'une action
+*
+```
+
+---
+
+# Context
+
+---
+
+* React a toujours eu un contexte (non documenté)
+* 29 mars 2018: [React v16.3.0: New lifecycles and context API](https://reactjs.org/blog/2018/03/29/react-v-16-3.html)
+* 23 octobre 2018: [React v16.6.0: lazy, memo and contextType](https://reactjs.org/blog/2018/10/23/react-v-16-6.html)
+
+---
+
+- Mettre à disposition une valeur n'importe ou dans l'arbre de composants
+- Pas obligé de faire traversé le context dans l'ensemble de l'arbre
+- Utilisateur du pattern `Provider`
+- *Cas d'utilisation* : maintenir un état global
+
+---
+
+```jsx
+const ThemeContext= React.createContext('light')
+
+const App = () => {
+  <ThemeContext.Provider value='dark'>
+    <Toolbar />
+  </ThemeContext.Provider>
+} 
+
+const Toolbar = () => {
+  <ThemeContext.Consumer value='dark'>
+    {theme => <Button theme={theme} />}
+  </ThemeContext.Consumer>
+}
+----
+*
+1 > initialisation du context avec la valeur "dark"
+3,4,5,6,7 > Wrap du composant qui peut consommer le context
+8,9,10,11,12 > Composant Consumer qui permer de consommer le context grâce à une renderProps
+*
+```
+
+---
+
+# Codelab
+
+---
+
+- Développez une application en utilisant les `hooks` et l'api `context`
+- Bibliothèque tierce utilisé: react-router-dom (on a menti)
+
+---
+
+# Questions
