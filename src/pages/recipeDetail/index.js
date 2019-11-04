@@ -28,6 +28,7 @@ function RecipeDetail() {
             <div className="control control-container">
               <div className="select is-fullwidth">
                 <select>
+                  <option defaultValue></option>
                   <option value="reblochon">Reblochon</option>
                   <option value="pommes de terre">Pommes de terre</option>
                   <option value="charcuterie">Charcuterie</option>
@@ -42,8 +43,19 @@ function RecipeDetail() {
             </div>
           </div>
 
+          {/* Liste des ingrédients */}
+          <div className="field">
+            <h3>Liste des ingrédients :</h3>
+            <ul>
+              <li key="1">Pommes de terre</li>
+              <li key="2">Tomates</li>
+            </ul>
+          </div>
+          <hr />
+
           <div className="field is-grouped">
             <div className="control">
+              <button className="button reset">Annuler les changements</button>
               <button className="button is-success">Enregistrer</button>
             </div>
           </div>
