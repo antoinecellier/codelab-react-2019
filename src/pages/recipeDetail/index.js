@@ -57,6 +57,16 @@ function RecipeDetail() {
             </div>
           </div>
 
+          {/* Liste des ingrédients */}
+          <div className="field">
+            <h3>Liste des ingrédients :</h3>
+            <ul>
+              <li key="1">Pommes de terre</li>
+              <li key="2">Tomates</li>
+            </ul>
+          </div>
+          <hr />
+
           <div className="field is-grouped">
             <div className="control">
             <button className="button reset" onClick={() => setRecipe(current)}>Annuler les changements</button>
