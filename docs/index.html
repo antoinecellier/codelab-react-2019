@@ -32,14 +32,9 @@
 <ul>
 <li>GIT</li>
 <li>NodeJS 10.x ou &gt;</li>
-<li>un IDE (WebStorm ou Visual Studio Code...)</li>
-<li>Récupérez le répertoire step0 du repository GIT<pre><code>git clone -b step-0 https://github.com/antoinecellier/codelab-react-2019
-cd codelab-react-2019
-npm install # yarn
-</code></pre>
-</li>
+<li>un IDE (Visual Studio Code ou Webstorm...)<br><br><code>git clone -b step-2 https://github.com/antoinecellier/codelab-react-2019<br>cd codelab-react-2019<br>npm install # yarn<br>npm run start # yarn start<br></code></li>
 </ul>
-<p>Voici de plus quelques liens qui pourraient vous être utiles tout au long de ce codelab :</p>
+<p>Quelques liens qui pourraient vous être utiles tout au long de ce codelab :</p>
 <ul>
 <li><a href="https://fr.reactjs.org/docs/hooks-intro.html" target="_blank">Documentation des hooks React</a></li>
 <li><a href="https://fr.reactjs.org/docs/context.html#___gatsby" target="_blank">Documentation de l&#39;API Context React</a></li>
@@ -65,7 +60,7 @@ npm install # yarn
 <p>Créez un nouveau <code>context</code>:</p>
 <pre><code>export const RecipesContext = createContext()
 </code></pre>
-<p>Déplacez la variables <code>recipes</code> du composant <code>Home</code> dans ce fichier.</p>
+<p>Déplacez la variable <code>recipes</code> du composant <code>Home</code> dans ce fichier.</p>
 <pre><code>const recipes = [ ... ]
 </code></pre>
 <p>Puis créez le <code>Provider</code> du context, et passez la variable <code>recipes</code> à la props value du <code>Provider</code>:</p>
@@ -100,15 +95,20 @@ npm install # yarn
 
       </google-codelab-step>
     
-      <google-codelab-step label="Consommer un contexte grâce aux hooks" duration="1">
-        <p>Dans ce TP vous allez utiliser les <code>hook</code> afin de consommer plus facilement un contexte dans un composant.<br>L&#39;objectif est de ne plus utiliser le composant <code>&lt;RecipesContext.Consumer /&gt;</code> grâce au hook <code>useContext</code>.</p>
+      <google-codelab-step label="Consommer un contexte grâce aux hooks" duration="0">
+        <p>Continuez avec votre code ou récupérez la branche <code>git checkout step-3</code>.</p>
+<p>Dans ce TP vous allez utiliser les <code>hook</code> afin de consommer plus facilement un contexte dans un composant.<br>L&#39;objectif est de ne plus utiliser le composant <code>&lt;RecipesContext.Consumer /&gt;</code> grâce au hook <code>useContext</code>.</p>
 <h3 is-upgraded>Dans le fichier <code>src/context/recipes/index.js</code></h3>
 <p>Créez le hook suivant:</p>
 <pre><code>export const useRecipesContext = () =&gt; useContext(RecipesContext)
 </code></pre>
 <h3 is-upgraded>Dans le fichier <code>src/pages/home/index.js</code></h3>
 <p>Retirez le composant <code>&lt;RecipesContext.Consumer /&gt;</code>. Puis utilisez le hook que vous venez de créez pour récupérer le context.</p>
-<pre><code>  const recipesContext = useRecipesContext()
+<pre><code>  import { useRecipesContext } from &#39;../../context/recipes/index&#39;
+  
+  ...
+
+  const recipesContext = useRecipesContext()
   return (
     &lt;section className=&#34;SectionComponent hero section is-block is-relative&#34;&gt;
       &lt;div className=&#34;container&#34;&gt;
@@ -124,23 +124,24 @@ npm install # yarn
       </google-codelab-step>
     
       <google-codelab-step label="Récupèrer les recettes de manière asynchrone" duration="0">
-        <p>A partir d&#39;ici vous pouvez consulter la liste des recettes à partir d&#39;une variable stocké dans le contexte <code>recipes</code>.<br>Maintenant l&#39;objectif est de récupèrer des données sur un service pour les afficher dans votre application.</p>
+        <p>Continuez avec votre code ou récupérez la branche <code>git checkout step-4</code>.</p>
+<p>A partir d&#39;ici vous pouvez consulter la liste des recettes à partir d&#39;une variable stockée dans le contexte <code>recipes</code>.<br>Maintenant l&#39;objectif est de récupérer des données sur un service pour les afficher dans votre application.</p>
 <p>Le service est disponible à cette url: <code>http://react-19-20.cleverapps.io/${lastName}/recettes</code><br>La variable <code>lastName</code> devra être votre nom de famille. Cela permet d&#39;avoir vos propres données.</p>
 <h3 is-upgraded>Dans le fichier <code>src/context/recipes/actionsCreator.js</code></h3>
-<p>Déclarez une action qui sera dispatché une fois les données récupèré :</p>
+<p>Déclarez une action qui sera dispatchée une fois les données récupérées :</p>
 <pre><code>export const sideActions = {
     LIST_LOADED: &#39;LIST_LOADED&#39;
 }
 </code></pre>
-<p>Créez l&#39;action permetant de récupèrer la liste des recettes (n&#39;oubliez pas de mettre à jour la variable <code>lastName</code>) :</p>
+<p>Créez l&#39;action permettant de récupérer la liste des recettes (n&#39;oubliez pas de mettre à jour la variable <code>lastName</code>) :</p>
 <pre><code>const lastName = &#39;&lt;votre nom&gt;&#39;
 
 const actionsCreator = (dispatch) =&gt; ({
     list: async () =&gt; {
-        // Appel asynchrone au service pour récupèrer la liste des recettes
+        // Appel asynchrone au service pour récupérer la liste des recettes
         const response = await fetch(&#39;http://react-19-20.cleverapps.io/${lastName}/recettes&#39;)
         const list = await response.json()
-        // Une fois la liste récupèré, vous dispatchez une action qui contient la liste des recettes
+        // Une fois la liste récupérée, vous dispatchez une action qui contient la liste des recettes
         dispatch({
             type: sideActions.LIST_LOADED,
             payload: list,
@@ -149,12 +150,12 @@ const actionsCreator = (dispatch) =&gt; ({
 })
 </code></pre>
 <h3 is-upgraded>Dans le fichier <code>src/context/recipes/index.js</code></h3>
-<p>Déclarez un état initiale pour le contexte et supprimez la variables <code>recipes</code> qui contient la liste en &#34;dur&#34;:</p>
+<p>Déclarez un état initial pour le contexte et supprimez la variable <code>recipes</code> qui contient la liste en &#34;dur&#34;:</p>
 <pre><code>const initialState = {
   list: [],
 }
 </code></pre>
-<p>Créez un reducer qui va permettre de mettre à jour les données du contexte quand une action est dispatché :</p>
+<p>Créez un reducer qui va permettre de mettre à jour les données du contexte quand une action est dispatchée :</p>
 <pre><code>function reducer(state, action) {
     switch (action.type) {
         case sideActions.LIST_LOADED:
@@ -178,37 +179,43 @@ const actionsCreator = (dispatch) =&gt; ({
 }
 </code></pre>
 <h3 is-upgraded>Dans le fichier <code>src/pages/home/index.js</code></h3>
-<p>Vous venez d&#39;ajoutez les actions dans le contexte <code>recipes</code>. Il faut donc changer la manière dont vous récupèrez la liste des recettes.</p>
-<p>En plus de l&#39;état vous pouvez récupèrez les actions du contexte :</p>
+<p>Vous venez d&#39;ajouter les actions dans le contexte <code>recipes</code>. Il faut donc changer la manière dont vous récupérez la liste des recettes.</p>
+<p>En plus de l&#39;état vous pouvez récupérez les actions du contexte :</p>
 <pre><code>const { state, actions } = useRecipesContext()
 </code></pre>
-<p>A présent l&#39;objectif est de récupèrer la liste des recettes quand le composant est initialisé, pour cela vous pourrez utiliser le hook <code>useEffect</code> et exécutez l&#39;action <code>actions.list()</code>.</p>
+<p>A présent l&#39;objectif est de récupérer la liste des recettes quand le composant est initialisé, pour cela vous pourrez utiliser le hook <code>useEffect</code> et exécuter l&#39;action <code>actions.list()</code>.</p>
 <pre><code>useEffect(() =&gt; {
     if (!state.list.length) actions.list()
-})
+}, [actions, state])
 
 return (
     &lt;section className=&#34;SectionComponent hero section is-block is-relative&#34;&gt;
         &lt;div className=&#34;container&#34;&gt;
             &lt;div className=&#34;columns is-centered is-variable is-4 is-multiline&#34;&gt;
-                {state.list.map((item, index) =&gt; &lt;RecipeCard item={item} key={index} /&gt;)}
+                {state.list.map(item =&gt; &lt;RecipeCard item={item} key={item.id} /&gt;)}
             &lt;/div&gt;
         &lt;/div&gt;
     &lt;/section&gt;
 );
 </code></pre>
-<p><code>if (!state.list.length)</code> permet d&#39;exécuter l&#39;action seulement si le tableau de recette est encore vide.</p>
+<p><code>if (!state.list.length)</code> permet d&#39;exécuter l&#39;action seulement si le tableau de recettes est encore vide.</p>
+<p>L&#39;application doit maintenant afficher trois recette: Recette 1, Recette 2, Recette 3.</p>
 
 
       </google-codelab-step>
     
       <google-codelab-step label="Modifier une recette" duration="0">
-        <p>L&#39;objectif de cette partie est de récupèrer une recette grâce au service <code>http://react-19-20.cleverapps.io</code>, afficher ces données dans le formulaire (<code>src/pages/recipeDetail/index.js</code>), et modifier la recette.</p>
+        <p>Continuez avec votre code ou récupérez la branche <code>git checkout step-5</code>.</p>
+<p>L&#39;objectif de cette partie est de récupérer une recette grâce au service <code>http://react-19-20.cleverapps.io</code>, afficher ces données dans le formulaire (<code>src/pages/recipeDetail/index.js</code>), et modifier la recette.</p>
 <h3 is-upgraded>Attention il y a moins de directives pour ce TP, vous pourrez reprendre la même logique que le TP précédent.</h3>
-<p>Dans un premier temps vous allez devoir récupèrer une recette grâce à cette url:<br><code>http://react-19-20.cleverapps.io/${lastName}/recettes/${id}</code></p>
-<p>L&#39;application utilise la libraire <code>react-router-dom</code> qui met à disposition le hook <code>useParams</code> pour récupèrer les paramètres de la route courante. Ici le paramètre <code>id</code> va être utilisé pour récupèrer l&#39;<code>id</code> de la recette courante.</p>
+<p>Dans un premier temps vous allez devoir récupérer une recette grâce à cette url:<br><code>http://react-19-20.cleverapps.io/${lastName}/recettes/${id}</code></p>
+<p>L&#39;application utilise la libraire <code>react-router-dom</code> qui met à disposition le hook <code>useParams</code> pour récupérer les paramètres de la route courante. Ici le paramètre <code>id</code> va être utilisé pour récupérer l&#39;<code>id</code> de la recette courante.</p>
+<pre><code>import { useParams } from &#39;react-router-dom&#39;
+...
+const { id } = useParams()
+</code></pre>
 <h2 is-upgraded>Dans le composant <code>src/pages/recipeDetail/index.js</code></h2>
-<p>Vous allez pouvoir gérer les données du formulaire en utilisant l&#39;état local, grâce au <code>hookuseState</code>:</p>
+<p>Vous allez pouvoir gérer les données du formulaire en utilisant l&#39;état local, grâce au hook <code>useState</code>:</p>
 <pre><code>const [recipe, setRecipe] = useState(currentRecipe)
 
 ...
@@ -220,9 +227,9 @@ return (
     placeholder=&#34;Nom de la recette&#34; 
 /&gt;
 </code></pre>
-<p>Deux actions utilisateur vont être possible:</p>
+<p>Deux actions utilisateur vont être possibles:</p>
 <ul>
-<li>Enregistrer la recette, toujours en utilisant le service fourni:</li>
+<li>Enregistrer la recette, toujours en utilisant le service REST fourni:</li>
 </ul>
 <pre><code>await fetch(`http://react-19-20.cleverapps.io/${lastName}/recettes/${recipe.id}`, 
 {
@@ -239,14 +246,23 @@ return (
       </google-codelab-step>
     
       <google-codelab-step label="Ajouter des ingrédients à une recette" duration="0">
-        <p>Maintenant que vous pouvez modifier le nom et la description de vos recettes, il reste à gérer les ingrédients.</p>
-<p>L&#39;objectif de cette partie est de récupèrer la liste des ingrédients partir de cette url: <code>http://react-19-20.cleverapps.io/${lastName}/ingredients</code>, de les afficher dans le select du formulaire et de pouvoir les ajouter à une recette.</p>
-<p>Vous pouvez afficher les ingrédients dans le <code>select</code> du formulaire comme ceci:</p>
-<pre><code>{listIngredients.map(ingredient =&gt; (
-    &lt;option key={ingredient.id} value={ingredient.id}&gt;{ingredient.name}&lt;/option&gt;
-))}
+        <p>Continuez avec votre code ou récupérez la branche <code>git checkout step-6</code>.</p>
+<p>Maintenant que vous pouvez modifier le nom et la description de vos recettes, il reste à gérer les ingrédients.</p>
+<p>L&#39;objectif de cette partie est de récupérer la liste des ingrédients partir de cette url: <code>http://react-19-20.cleverapps.io/${lastName}/ingredients</code>, de les afficher dans le select du formulaire et de pouvoir les ajouter à une recette.</p>
+<p>Dans un premier temps vous devez créez un nouveau context pour récupèrer la liste des ingrédients: <code>src/context/ingredients</code><br>N&#39;hésitez pas à reprendre ce que vous avez fait pour les recettes.</p>
+<p>Une fois la liste des ingrédients récupèré vous devez les afficher dans le <code>select</code> du formulaire comme ceci:</p>
+<pre><code>const [ingredientSelected, setIngredientSelected] = useState(&#39;&#39;)
+
+...
+
+&lt;select value={ingredientSelected} onChange={(e) =&gt; setIngredientSelected(e.target.value)}&gt;
+    &lt;option defaultValue&gt;&lt;/option&gt;
+    {ingredientsList.map(ingredient =&gt; (
+        &lt;option key={ingredient.id} value={ingredient.id}&gt;{ingredient.name}&lt;/option&gt;
+    ))}
+&lt;/select&gt;
 </code></pre>
-<p>En cliquant sur le bouton <code>Ajouter un ingrédie</code>nt, l&#39;ingrédient selectionnez sera ajouté à la liste en dessous du select.<br>Cette liste devra afficher le nom de l&#39;ingrédient, pour cela vous pouvez mettre en place un selecteur qui va permettre de récupère un ingrédient (<code>{ name: &#39;Recette 1&#39;, id: 1 }</code>) par rapport à son <code>id</code>:</p>
+<p>En cliquant sur le bouton <code>Ajouter un ingrédie</code>nt, l&#39;ingrédient selectionnez sera ajouté à la liste en dessous du select.<br>Cette liste devra afficher le nom de l&#39;ingrédient, pour cela vous pouvez mettre en place un selecteur qui va permettre de récupérer un ingrédient (<code>{ name: &#39;Recette 1&#39;, id: 1 }</code>) par rapport à son <code>id</code>:</p>
 <p>Dans le fichier <code>src/context/ingredients/selectors.js</code> ajoutez ce code:</p>
 <pre><code>const getIngredientById = (state) =&gt; (id) =&gt; {
     return state.list.find((ingredient) =&gt; ingredient.id === id)

@@ -15,8 +15,6 @@ authors: Antoine CELLIER
 - NodeJS 10.x ou >
 - un IDE (Visual Studio Code ou Webstorm...)
 
-- Récupérez le répertoire step0 du repository GIT
-
 ```
 git clone -b step-2 https://github.com/antoinecellier/codelab-react-2019
 cd codelab-react-2019
@@ -24,7 +22,7 @@ npm install # yarn
 npm run start # yarn start
 ```
 
-Voici de plus quelques liens qui pourraient vous être utiles tout au long de ce codelab :
+Quelques liens qui pourraient vous être utiles tout au long de ce codelab :
 - [Documentation des hooks React](https://fr.reactjs.org/docs/hooks-intro.html)
 - [Documentation de l'API Context React](https://fr.reactjs.org/docs/context.html#___gatsby)
 - [Documentation de React router](https://reacttraining.com/react-router/)
@@ -236,13 +234,13 @@ A présent l'objectif est de récupérer la liste des recettes quand le composan
 ```js
 useEffect(() => {
     if (!state.list.length) actions.list()
-})
+}, [actions, state])
 
 return (
     <section className="SectionComponent hero section is-block is-relative">
         <div className="container">
             <div className="columns is-centered is-variable is-4 is-multiline">
-                {state.list.map((item, index) => <RecipeCard item={item} key={index} />)}
+                {state.list.map(item => <RecipeCard item={item} key={item.id} />)}
             </div>
         </div>
     </section>

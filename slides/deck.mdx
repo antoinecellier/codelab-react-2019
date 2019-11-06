@@ -56,10 +56,33 @@ Développeur
 
 ---
 
-- Réutiliser la logique
-- Les prémices `mixins`, `hoc`, `renderProps`: Surcharge de l'arbre de composants
-- Gérer plus facilement les mécaniques d'un composant: `state`, cycle de vie 
+- Les prémices `mixins`, `hoc`, `renderProps`
+- Surcharge de l'arbre de composants
+
+---
+```jsx
+  <Connect>
+    {state => (
+      <>
+        <p>Vous avez cliqué {state.count} fois</p>
+        <Connect>
+          {(state, dispatch) =>
+            <button onClick={() => dispatch(setCount(count + 1))}>
+              Cliquez ici
+            </button>
+          }
+        </Connect>
+      </>
+    )}
+  <Connect/>
+```
+
+---
+
 - Disponibles depuis la version 16.8.0
+- Réutiliser la logique: hook custom
+- Gérer plus facilement l'état: `useState` 
+- S'abstraire de certaines mécaniques comme le cycle de vie: `useEffect`
 
 ---
 
@@ -121,6 +144,7 @@ const Counter = () => {
 4 > initialisation d'un état 
 6,7,8,9 > `log` du `count` à chaque fois que le composant est rerendu et que sa valeur change
 14 > Mise à jour de l'état
+8 > appel de `useEffect`
 *
 ```
 
@@ -160,6 +184,8 @@ const Counter = () => {
 3,4,5,6,7,8,9,10,11,12 > implémentation du reducer
 15 > useReducer
 19 > dispatch d'une action
+7,8 > calcul du nouvel état
+18 > affichage de l'état mis à jour
 *
 ```
 
@@ -176,9 +202,8 @@ const Counter = () => {
 ---
 
 - Mettre à disposition une valeur n'importe où dans l'arbre de composants
-- Pas obligé de faire traverser le context dans l'ensemble de l'arbre
-- Utilisateur du pattern `Provider`
-- *Cas d'utilisation* : maintenir un état global
+- Utilisation du pattern `Provider` / `Consumer`
+- *Cas d'utilisation* : maintenir des états globaux, mettre à disposition de la config
 
 ---
 
@@ -192,15 +217,15 @@ const App = () => {
 } 
 
 const Toolbar = () => {
-  <ThemeContext.Consumer value='dark'>
+  <ThemeContext.Consumer>
     {theme => <Button theme={theme} />}
   </ThemeContext.Consumer>
 }
 ----
 *
-1 > initialisation du context avec la valeur "dark"
-3,4,5,6,7 > Wrap du composant qui peut consommer le context
-8,9,10,11,12 > Composant Consumer qui permer de consommer le context grâce à une renderProps
+1 > initialisation du context avec une valeur par défaut "light"
+3,4,5,6,7 > Le provider met à disposition le context pour ses enfants
+8,9,10,11,12 > Composant Consumer qui permet de consommer le context grâce à une renderProps
 *
 ```
 
@@ -212,6 +237,8 @@ const Toolbar = () => {
 
 - Développez une application en utilisant les `hooks` et l'api `context`
 - Bibliothèque tierce utilisée: react-router-dom (on a menti)
+
+https://antoinecellier.github.io/codelab-react-2019
 
 ---
 
