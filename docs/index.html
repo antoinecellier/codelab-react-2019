@@ -48,12 +48,14 @@
         <p>Nous allons développer une application de gestion de recettes.</p>
 <p>Chaque recette contiendra les données suivantes :</p>
 <ul>
-<li>Un titre</li>
-<li>Une description</li>
-<li>Une liste d&#39;ingrédients</li>
+<li>Un id (<code>id</code>)</li>
+<li>Un titre (<code>name</code>)</li>
+<li>Une description (<code>description</code>)</li>
+<li>Une liste d&#39;ingrédients (<code>ingredients</code>)</li>
 </ul>
-<p>Nous pourrons consulter, ajouter, modifier des recettes.</p>
-<p>Créez un premier context pour consulter les recettes en effectuant les étapes suivantes :</p>
+<p>Nous pourrons consulter et modifier des recettes.</p>
+<p>Dans un premier temps vous allez créer un contexte qui va contenir les données des recettes. Ensuite ce contexte pourra être consommé n&#39;importe où dans votre arbre de composants.</p>
+<p>Créez un contexte pour consulter les recettes en effectuant les étapes suivantes :</p>
 <h3 is-upgraded>Dans le fichier <code>src/context/recipes/index.js</code></h3>
 <p>Créez un nouveau <code>context</code>:</p>
 <pre><code>export const RecipesContext = createContext()
@@ -229,7 +231,7 @@ const { id } = useParams()
 <ul>
 <li>Enregistrer la recette, toujours en utilisant le service REST fourni:</li>
 </ul>
-<pre><code>await fetch(`http://react-19-20.cleverapps.io/antoine/recettes/${recipe.id}`, 
+<pre><code>await fetch(`http://react-19-20.cleverapps.io/${lastName}/recettes/${recipe.id}`, 
 {
     method: &#39;PUT&#39;,
     body: JSON.stringify(recipe),
@@ -289,7 +291,7 @@ export const IngredientsProvider = ({ children }) =&gt; {
 <p>Le selecteur est maintenant disponible depuis vos composants:</p>
 <pre><code>  const { state, actions, selectors } = useIngredientsContext()
 </code></pre>
-<p>Il ne reste plus qu&#39;à gérer la mise à jour d&#39;une recette en prenant en compte la liste des ingrédients ajouté.</p>
+<p>Il ne reste plus qu&#39;à gérer la modification d&#39;une recette en prenant en compte la liste des ingrédients ajoutés.</p>
 
 
       </google-codelab-step>
