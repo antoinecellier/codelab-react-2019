@@ -1,5 +1,5 @@
 import React from 'react'
-import { yellow as theme } from "mdx-deck/themes"
+import { default as theme } from "mdx-deck/themes"
 import codeTheme from "prism-react-renderer/themes/duotoneLight"
 
 class Provider extends React.Component {
